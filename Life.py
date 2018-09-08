@@ -4,7 +4,8 @@ import numpy as np
 from conway import Life
 
 class GameOfLife(Life):
-    def __init__(self, width =1440, height = 960, cell_size = 107, speed = 10):
+    def __init__(self, width = 1440, height = 960, cell_size = 10, speed = 10):
+        Life.__init__(self, width // 10, height // 10)
         self.width = width
         self.height = height
         self.cell_size = cell_size
@@ -20,17 +21,28 @@ class GameOfLife(Life):
 
         # Скорость протекания игры
         self.speed = speed
+        self.Mboard()
 
 
     def draw_grid(self):
-        # http://www.pygame.org/docs/ref/draw.html#pygame.draw.line
+        
         for x in range(0, self.width, self.cell_size):
             pygame.draw.line(self.screen, pygame.Color('black'), 
                 (x, 0), (x, self.height))
         for y in range(0, self.height, self.cell_size):
             pygame.draw.line(self.screen, pygame.Color('black'), 
                 (0, y), (self.width, y))
-
+            
+    def cells(self):
+        for row in range(self.rows):
+            for column in range(self.columns):
+                if self.board[row, column] == 1:
+                    pygame.draw.rect(self.screen, (57, 255, 20), ((row * 10) + 1, (column * 10) +1, self.cell_size -1, 
+                                     self.cell_size -1))
+                else:
+                    pygame.draw.rect(self.screen, (255, 255, 255), ((row * 10) + 1, (column * 10) + 1, self.cell_size -1, 
+                                     self.cell_size -1))
+                    
 
     def run(self):
         pygame.init()
@@ -43,6 +55,8 @@ class GameOfLife(Life):
                 if event.type == QUIT:
                     running = False
             self.draw_grid()
+            self.cells()
+            self.cell()
             pygame.display.flip()
             clock.tick(self.speed)
         pygame.quit()

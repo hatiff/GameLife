@@ -7,32 +7,32 @@ class Life():
         self.rows = rows
         self.columns = columns
         self.alive = 0
-        self.Cycle
-       
-    def Cycle(self):
-        self.Mboard
-        if self.alive == 0:
-            self.end
-        self.cell
-        
+    
+         
     def Mboard(self):
-        self.board = np.zeros(self.rows, self.columns)
-        for row in self.rows:
-            for column in self.columns:
-                self.board[row, column] = np.random.randint(0, 1)
-        self.alive = self.board.sum()
+        self.board = np.zeros((self.rows, self.columns))
+        self.board[30, 50] = 1
+        self.board[31, 51] = 1
+        self.board[32, 49] = 1
+        self.board[32, 50] = 1
+        self.board[32, 51] = 1
+       # for row in range(self.rows):
+          #  for column in range(self.columns):
+              #  self.board[row, column] = np.random.randint(0, 2)
 
     def cell(self):
-        for row in self.rows:
-            for column in self.columns:
+        self.leav = self.board.copy()
+        self.new  = np.zeros((self.rows, self.columns))
+        for row in range(self.rows):
+            for column in range(self.columns):
                 self.row = row
                 self.column = column
-                self.neigbors
-                self.death
-                self.live
+                self.live()
+                self.death()
+        self.genesis()
                 
     
-    def neighbor(self):
+    def neighbors(self):
         r = self.row
         c = self.column
         neighbors = 0
@@ -42,14 +42,14 @@ class Life():
         nc0 = c - 1
         if r == 0:
             nr1 = r + 1
-            nr0 = -r + 1
+            nr0 = -1
         elif r == self.rows - 1:
             nr1 = 0
             nr0 = r - 1
         
         if c == 0 :
             nc1 = c + 1
-            nc0 = -c + 1
+            nc0 = -1
         elif c == self.columns - 1:
             nc1 = 0
             nc0 = c - 1
@@ -59,21 +59,21 @@ class Life():
                 neighbors += self.board[row, colm]    
         if self.board[r, c] == 1:
             neighbors -= 1      
-        self.nei = neighbors        
-    
-    def death(self):
-        if self.nei < 2 or self.nei > 3:
-            if self.board[self.row, self.column] == 1:
-                self.alive -= 1
-            self.board[self.row, self.column] = 0
-
+        self.nei = neighbors 
             
     def live(self):
+        self.neighbors()
         if self.nei == 3:
-            self.board[self.row, self.column] = 1
-            self.alive += 1
-    def end(self):
-        sys.exit(1)
+            if self.board[self.row, self.column] != 1:
+                self.new[self.row, self.column] = 1
+    
+    def death(self):
+        self.neighbors()
+        if self.nei < 2 or self.nei > 3:
+            self.leav[self.row, self.column] = 0
+    
+    def genesis(self):
+        self.board = self.new + self.leav
 
-c = Life(1000, 1500)
-print(c.alive)
+
+
