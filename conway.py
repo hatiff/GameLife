@@ -8,7 +8,7 @@ class Life():
         self.columns = columns
         self.alive = 0
     
-         
+    #Create board   
     def Mboard(self):
         self.board = np.zeros((self.rows, self.columns))
         self.board[30, 50] = 1
@@ -16,12 +16,10 @@ class Life():
         self.board[32, 49] = 1
         self.board[32, 50] = 1
         self.board[32, 51] = 1
-       # for row in range(self.rows):
-          #  for column in range(self.columns):
-              #  self.board[row, column] = np.random.randint(0, 2)
-
+       
+    #Cycle of life 
     def cell(self):
-        self.leav = self.board.copy()
+        self.leav = self.board.copy() 
         self.new  = np.zeros((self.rows, self.columns))
         for row in range(self.rows):
             for column in range(self.columns):
@@ -31,7 +29,7 @@ class Life():
                 self.death()
         self.genesis()
                 
-    
+    #Calculate the neighbors
     def neighbors(self):
         r = self.row
         c = self.column
